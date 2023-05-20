@@ -8,6 +8,7 @@ const pokeWeight = document.getElementById('data-poke-weight');
 const pokeTypes = document.getElementById('data-poke-types');
 const pokeStats = document.getElementById('data-poke-stats');
 const pokeMoves = document.getElementById('data-poke-moves');
+const pokeTable = document.getElementById('table-poke');
 
 const typeColors = {
     electric: '#FFEA70',
@@ -26,17 +27,22 @@ const typeColors = {
     dragon: '#DA627D',
     steel: '#1D8A99',
     fighting: '#2F2F2F',
+    fairy: '#e39ca0',
+    dark: '#171010',
     default: '#2A1A1F',
 };
 
 const searchPokemon = event => {
     event.preventDefault();
     const { value } = event.target.pokemon;
+    searchPokemonData(value)
+}
+
+const searchPokemonData = value => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${value.toLowerCase()}`)
         .then(data => data.json())
         .then(response => renderPokemonData(response))
         .catch(err => renderNotFound())
-
 }
 
 const renderPokemonData = data => {
@@ -85,7 +91,6 @@ const renderPokemonStats = stats => {
     });
 }
 
-
 const renderPokemonMoves = moves => {
     moves.length = 4
     pokeMoves.innerHTML = '';
@@ -113,4 +118,41 @@ const renderNotFound = () => {
     pokeHeight.textContent = '';
     pokeWeight.textContent = '';
     pokeMoves.textContent = '';
+}
+
+// table pokemon
+const urlPokemon = 'https://pokeapi.co/api/v2/pokemon?limit=300'
+const GetPokemons = async (url) => {
+    const response = await fetch(url);
+    const results = await response.json();
+    DataPokemons(results.results)
+}
+
+GetPokemons(urlPokemon)
+
+const DataPokemons = async (data) => {
+    for (let index of data) {
+        const resp = await fetch(index.url);
+        const resul = await resp.json();
+        tem2lateHtml = `
+        <div class="poke" id="${resul.id}"
+        style="background:radial-gradient(${typeColors[resul.types[0].type.name]} 33%, ${resul.types[1]
+                ? typeColors[resul.types[1].type.name] : typeColors.default} 33%) 0% 0% / 5px 5px;">
+        <h2 style="color:#fff;">${resul.name}</h2>
+        <h2 style="color:#fff;">${resul.id}</h2>
+        <img src=${resul.sprites.front_default} />
+        </div>
+        `;
+        pokeTable.innerHTML += tem2lateHtml;
+    };
+    console.log('listo')
+    const poke = document.querySelectorAll('.poke');
+    poke.forEach(poke => {
+        poke.addEventListener("click", () => {
+            getID(poke.id)
+        })
+    })
+    const getID = (e) => {
+        searchPokemonData(e)
+    }
 }
