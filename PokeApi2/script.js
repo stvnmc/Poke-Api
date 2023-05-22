@@ -1,13 +1,3 @@
-const pokeCard = document.getElementById('data-poke-card');
-const pokeName = document.getElementById('data-poke-name');
-const pokeImg = document.getElementById('data-poke-img');
-const pokeImgContainer = document.getElementById('data-poke-img-container');
-const pokeId = document.getElementById('data-poke-id');
-const pokeHeight = document.getElementById('data-poke-height');
-const pokeWeight = document.getElementById('data-poke-weight');
-const pokeTypes = document.getElementById('data-poke-types');
-const pokeStats = document.getElementById('data-poke-stats');
-const pokeMoves = document.getElementById('data-poke-moves');
 const pokeTable = document.getElementById('table-poke');
 
 const typeColors = {
@@ -31,6 +21,29 @@ const typeColors = {
     dark: '#171010',
     default: '#2A1A1F',
 };
+
+
+
+
+
+
+
+
+
+
+
+const pokeCard = document.getElementById('data-poke-card');
+const pokeName = document.getElementById('data-poke-name');
+const pokeImg = document.getElementById('data-poke-img');
+const pokeImgContainer = document.getElementById('data-poke-img-container');
+const pokeId = document.getElementById('data-poke-id');
+const pokeHeight = document.getElementById('data-poke-height');
+const pokeWeight = document.getElementById('data-poke-weight');
+const pokeTypes = document.getElementById('data-poke-types');
+const pokeStats = document.getElementById('data-poke-stats');
+const pokeMoves = document.getElementById('data-poke-moves');
+
+
 
 const searchPokemon = event => {
     event.preventDefault();
@@ -145,14 +158,13 @@ const DataPokemons = async (data) => {
         `;
         pokeTable.innerHTML += tem2lateHtml;
     };
-    console.log('listo')
     const poke = document.querySelectorAll('.poke');
     poke.forEach(poke => {
         poke.addEventListener("click", () => {
             getID(poke.id)
         })
     })
-    const getID = (e) => {
-        searchPokemonData(e)
-    }
+}
+const getID = (e) => {
+    searchPokemonData(e)
 }

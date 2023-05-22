@@ -12,7 +12,56 @@
 </head>
 
 <body>
+    <header>
+        <nav>
+            <img src="./img/perfil.png" alt="">
+            <ul>
+                <li>Git</li>
+                <li>link</li>
+                <li>Youtube</li>
+                <li>Discort</li>
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <aside>
+            <form action="" class="search" onsubmit="searchPokemon(event)">
+                <img src="./img/pokeball.png" alt="">
+                <input type="text" name="pokemon" autocomplete="off" placeholder="Search Pokedex">
+            </form>
+            <nav id="data-poke-card" class="poke-card" id="poke-card">
+                <div id="data-poke-name" class="name">Pokedex</div>
+
+                <div id="data-poke-img-container" class="img-container">
+                    <img id="data-poke-img" class="poke-img" src="./img/poke-shadow.png" />
+                </div>
+                <div class="poke-data-basic">
+                    <div id="data-poke-height"></div>
+                    <div id="data-poke-id"></div>
+                    <div id="data-poke-weight"></div>
+                </div>
+                <div id="data-poke-stats" class="poke-stats"></div>
+                <div id="data-poke-types" class="poke-types"></div>
+
+                <div id="data-poke-moves" class="poke-moves"></div>
+            </nav>
+
+        </aside>
+        <aside>
+            <nav class="table-poke">
+                <div class="poke-list" id="table-poke"></div>
+            </nav>
+        </aside>
+    </section>
     <footer>
+    </footer>
+
+
+    <script src="https://kit.fontawesome.com/9050b2ac4e.js" crossorigin="anonymous"></script>
+
+
+
+    <!-- <footer>
         <section>
             <form action="" onsubmit="searchPokemon(event)">
                 <input type="text" name="pokemon" autocomplete="off">
@@ -33,13 +82,7 @@
                 <div id="data-poke-moves" class="poke-moves"></div>
             </div>
         </section>
-        <section>
-            <img src="./img/International_Pokémon_logo.svg">
-            <nav class="poke-list-card">
-                <div class="poke-list" id="table-poke"></div>
-            </nav>
-        </section>
-    </footer>
+    </footer> -->
 </body>
 
 </html>
