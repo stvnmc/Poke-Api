@@ -1,3 +1,13 @@
+const pokeCard = document.getElementById('data-poke-card');
+const pokeName = document.getElementById('data-poke-name');
+const pokeImg = document.getElementById('data-poke-img');
+const pokeImgContainer = document.getElementById('data-poke-img-container');
+const pokeId = document.getElementById('data-poke-id');
+const pokeHeight = document.getElementById('data-poke-height');
+const pokeWeight = document.getElementById('data-poke-weight');
+const pokeTypes = document.getElementById('data-poke-types');
+const pokeStats = document.getElementById('data-poke-stats');
+const pokeMoves = document.getElementById('data-poke-moves');
 const pokeTable = document.getElementById('table-poke');
 
 const typeColors = {
@@ -25,26 +35,6 @@ const typeColors = {
 
 
 
-
-
-
-
-
-
-
-const pokeCard = document.getElementById('data-poke-card');
-const pokeName = document.getElementById('data-poke-name');
-const pokeImg = document.getElementById('data-poke-img');
-const pokeImgContainer = document.getElementById('data-poke-img-container');
-const pokeId = document.getElementById('data-poke-id');
-const pokeHeight = document.getElementById('data-poke-height');
-const pokeWeight = document.getElementById('data-poke-weight');
-const pokeTypes = document.getElementById('data-poke-types');
-const pokeStats = document.getElementById('data-poke-stats');
-const pokeMoves = document.getElementById('data-poke-moves');
-
-
-
 const searchPokemon = event => {
     event.preventDefault();
     const { value } = event.target.pokemon;
@@ -63,6 +53,9 @@ const renderPokemonData = data => {
     const { stats, types, moves } = data;
 
     pokeName.textContent = data.name;
+    pokeCard.style.width = '45vw'
+    pokeCard.style.height = '60vh'
+    pokeCard.style.display = 'grid'
     pokeImg.setAttribute('src', sprite);
     pokeId.textContent = `Nº ${data.id}`;
     pokeHeight.textContent = `H ${data.height / 10}m`;
@@ -94,8 +87,8 @@ const renderPokemonStats = stats => {
     pokeStats.innerHTML = '';
     stats.forEach(stat => {
         const statElement = document.createElement("div");
-        const statElementName = document.createElement("div");
-        const statElementAmount = document.createElement("div");
+        const statElementName = document.createElement("h3");
+        const statElementAmount = document.createElement("h3");
         statElementName.textContent = stat.stat.name;
         statElementAmount.textContent = stat.base_stat;
         statElement.appendChild(statElementName);
@@ -111,10 +104,25 @@ const renderPokemonMoves = moves => {
     moveElement.classList.add('Habilities');
     const HabilitiesElement = document.createElement("h3")
     HabilitiesElement.textContent = 'Habilities';
+
     pokeMoves.appendChild(HabilitiesElement);
     moves.forEach(move => {
-        const moveElementName = document.createElement("div")
+
+        // we create elements of the movements
+        const moveElementName = document.createElement("h2")
         moveElementName.textContent = move.move.name;
+
+
+        //we get the types of attacks
+        const resp = fetch(move.move.url).then(response => response.json())
+        Promise.all([resp]).then(values => {
+            values.forEach(types => {
+                const colorOne = typeColors[types.type.name];
+                const colorTwo = typeColors.default;
+                moveElementName.style.background = `radial-gradient(${colorTwo} 33%, ${colorOne} 33%)`;
+                moveElementName.style.backgroundSize = ' 5px 5px';
+            })
+        });
         moveElement.appendChild(moveElementName);
         pokeMoves.appendChild(moveElement)
     })
@@ -122,15 +130,18 @@ const renderPokemonMoves = moves => {
 }
 
 const renderNotFound = () => {
-    pokeName.textContent = 'No encontrado';
-    pokeImg.setAttribute('src', 'img/poke-shadow.png');
-    pokeImg.style.background = '#fff';
-    pokeTypes.innerHTML = '';
-    pokeStats.innerHTML = '';
-    pokeId.textContent = '';
-    pokeHeight.textContent = '';
-    pokeWeight.textContent = '';
-    pokeMoves.textContent = '';
+    pokeName.textContent = 'No encontrado'
+    pokeImg.setAttribute('src', 'img/poke-shadow.png')
+    pokeImg.style.background = '#fff'
+    pokeCard.style.width = '20vw'
+    pokeCard.style.height = '30vh'
+    pokeCard.style.display = 'block'
+    pokeTypes.innerHTML = ''
+    pokeStats.innerHTML = ''
+    pokeId.textContent = ''
+    pokeHeight.textContent = ''
+    pokeWeight.textContent = ''
+    pokeMoves.textContent = ''
 }
 
 // table pokemon
