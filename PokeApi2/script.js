@@ -53,8 +53,8 @@ const renderPokemonData = data => {
     const { stats, types, moves } = data;
 
     pokeName.textContent = data.name;
-    pokeCard.style.width = '45vw'
-    pokeCard.style.height = '60vh'
+    pokeCard.style.minWidth = '42vw'
+    pokeCard.style.minHeight = '62vh'
     pokeCard.style.display = 'grid'
     pokeImg.setAttribute('src', sprite);
     pokeId.textContent = `Nº ${data.id}`;
@@ -100,18 +100,11 @@ const renderPokemonStats = stats => {
 const renderPokemonMoves = moves => {
     moves.length = 4
     pokeMoves.innerHTML = '';
-    const moveElement = document.createElement("div");
-    moveElement.classList.add('Habilities');
-    const HabilitiesElement = document.createElement("h3")
-    HabilitiesElement.textContent = 'Habilities';
-
-    pokeMoves.appendChild(HabilitiesElement);
     moves.forEach(move => {
 
         // we create elements of the movements
         const moveElementName = document.createElement("h2")
         moveElementName.textContent = move.move.name;
-
 
         //we get the types of attacks
         const resp = fetch(move.move.url).then(response => response.json())
@@ -123,8 +116,7 @@ const renderPokemonMoves = moves => {
                 moveElementName.style.backgroundSize = ' 5px 5px';
             })
         });
-        moveElement.appendChild(moveElementName);
-        pokeMoves.appendChild(moveElement)
+        pokeMoves.appendChild(moveElementName);
     })
 
 }
@@ -133,8 +125,8 @@ const renderNotFound = () => {
     pokeName.textContent = 'No encontrado'
     pokeImg.setAttribute('src', 'img/poke-shadow.png')
     pokeImg.style.background = '#fff'
-    pokeCard.style.width = '20vw'
-    pokeCard.style.height = '30vh'
+    pokeCard.style.minWidth = '25vh'
+    pokeCard.style.minHeight = '20vh'
     pokeCard.style.display = 'block'
     pokeTypes.innerHTML = ''
     pokeStats.innerHTML = ''
@@ -142,6 +134,7 @@ const renderNotFound = () => {
     pokeHeight.textContent = ''
     pokeWeight.textContent = ''
     pokeMoves.textContent = ''
+
 }
 
 // table pokemon
