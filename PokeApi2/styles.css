@@ -114,7 +114,7 @@ aside nav {
     position: relative;
     min-width: 25vh;
     min-height: 20vh;
-    padding:1rem;
+    padding: 1rem;
     margin-top: 4vh;
     border-radius: 4px;
     color: #000;
@@ -127,15 +127,16 @@ aside nav {
 
 .poke-card::before,
 .table-poke::before,
-.search::before {
+.search::before,
+.Session li::before {
     content: '';
     background: black;
     border-radius: 11px;
     height: 100%;
     width: 100%;
     position: absolute;
-    left: 12px;
-    top: 12px;
+    left: 6px;
+    top: 6px;
     z-index: -5;
 }
 
@@ -144,8 +145,6 @@ aside nav {
     grid-column: 1 / 3;
     grid-row: 1;
 }
-
-.img-container {}
 
 .poke-data-basic {
     display: flex;
@@ -170,7 +169,7 @@ aside nav {
     grid-gap: 6%;
 }
 
-.poke-moves h2{
+.poke-moves h2 {
     padding-top: 2vh;
     color: #FFF;
     border-radius: 10px;
@@ -223,10 +222,35 @@ aside nav {
 
 /* Poke Table */
 
+.Session {
+    display: grid;
+    height: 7vh;
+    width: 36vw;
+    grid-template-columns: repeat(4, 2fr);
+    grid-auto-rows: 48%;
+    grid-gap: 6%;
+    
+}
+
+.Session li {
+    position: relative;
+    list-style: none;
+    font-size: 13px;
+    margin: 0 2px;
+    background-color: #FFF;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+
+
+
 .table-poke {
     width: 40vw;
     height: 60vh;
     position: relative;
+    margin-top: 3vh;
 }
 
 
