@@ -6,10 +6,10 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    height: 120vh;
-    background-image: url("img/poke-wallpaper2.jpg");
+    height: 130vh;
+    background-image: url("img/poke-wallpaper.png");
     background-repeat: no-repeat;
-    background-size: 100% 147vh;
+    background-size: 100% 118vh;
 }
 
 body::-webkit-scrollbar {
@@ -37,12 +37,30 @@ header nav img {
 
 header nav ul {
     display: flex;
-    width: 40vw;
+    width: 42vw;
+    font-size: 29px;
 }
 
 header nav ul li {
     list-style: none;
     padding-left: 5vw;
+    cursor: pointer;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #000;
+    position: relative;
+}
+
+.discort{
+
+}
+
+
+
+header nav ul li:hover {
+    text-decoration: underline;
 }
 
 section {
@@ -61,7 +79,7 @@ aside {
 }
 
 aside:first-child+aside {
-    justify-content: center;
+    margin-top: 6vh;
 }
 
 aside nav {
@@ -105,8 +123,6 @@ aside nav {
 }
 
 
-
-
 /* Card Pokemon */
 
 
@@ -114,7 +130,7 @@ aside nav {
     position: relative;
     min-width: 25vh;
     min-height: 20vh;
-    padding: 1rem;
+    padding: 0 1rem;
     margin-top: 4vh;
     border-radius: 4px;
     color: #000;
@@ -151,6 +167,7 @@ aside nav {
     justify-content: space-evenly;
     text-decoration: underline;
     align-items: center;
+    font-size: 21px;
 }
 
 .poke-stats {
@@ -165,7 +182,7 @@ aside nav {
     position: relative;
     display: grid;
     grid-template-columns: repeat(2, 2fr);
-    grid-auto-rows: 46%;
+    grid-auto-rows: 40%;
     grid-gap: 6%;
 }
 
@@ -173,14 +190,14 @@ aside nav {
     padding-top: 2vh;
     color: #FFF;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.79) 14px 17px 1px -12px;
+    ;
 }
-
 
 .poke-stats div {
     display: flex;
     justify-content: space-between;
     align-content: space-between;
-    font-size: 1vw;
 }
 
 .poke-types div {
@@ -188,12 +205,21 @@ aside nav {
     padding: 4px;
     border-radius: 4px;
     border: 1px dashed black;
+    box-shadow: rgba(0, 0, 0, 0.79) 1px 11px 10px -11px;
+    ;
 }
 
-.poke-img {
-    width: 19vw;
-    height: 26vh;
+.img-container{
     border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.79) 6px 8px 17px;
+    width: 17vw;
+    height: 20vh;
+    display: flex;
+    margin: 2rem;
+}
+.poke-img {
+    width: 17vw;
+    height: 23vh;
 }
 
 .poke-moves div div {
@@ -218,78 +244,72 @@ aside nav {
     border-radius: 4px;
 }
 
-
-
 /* Poke Table */
 
 .Session {
     display: grid;
     height: 7vh;
-    width: 36vw;
-    grid-template-columns: repeat(4, 2fr);
-    grid-auto-rows: 48%;
-    grid-gap: 6%;
-    
+    width: 27rem;
+    grid-template-columns: 21% 21% 21% 21%;
+    grid-auto-rows: 44%;
+    grid-gap: 11% 3%;
+
 }
 
 .Session li {
     position: relative;
     list-style: none;
-    font-size: 13px;
+   text-align: center;
+    font-size: 16px;
     margin: 0 2px;
     background-color: #FFF;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid black;
     cursor: pointer;
 }
 
-
-
-
 .table-poke {
     width: 40vw;
-    height: 60vh;
     position: relative;
     margin-top: 3vh;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid black;
+    transition: 1s;
 }
-
 
 .poke-list {
     overflow-x: hidden;
     position: relative;
-    height: 100%;
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 4px;
+    height: 98%;
 }
 
 .poke-list::-webkit-scrollbar {
-    width: 0;
+    -webkit-appearance: none;
+}
+
+.poke-list::-webkit-scrollbar-thumb {
+    background-color: #c7cddb;
+    border-radius: 5px;
 }
 
 .poke {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 39% 27% 34%;
     cursor: pointer;
     border: 1px solid black;
-    margin-top: 10px;
+    margin: 14px 5px;
     border-radius: 4px;
-    height: 67px;
+    height: 8vh;
+    justify-items: center;
+    align-items: center;
+    box-shadow: 14px 17px 1px -12px rgba(0, 0, 0, 0.79);
 }
-
-
-
-
-
-
-
-
-
 
 
 footer {
     background-color: #5e6065;
-    height: 20vh;
+    height: 30vh;
 }
 
 

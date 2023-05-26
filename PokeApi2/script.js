@@ -9,6 +9,7 @@ const pokeTypes = document.getElementById('data-poke-types');
 const pokeStats = document.getElementById('data-poke-stats');
 const pokeMoves = document.getElementById('data-poke-moves');
 const pokeTable = document.getElementById('table-poke');
+const table = document.getElementById('table');
 
 const typeColors = {
     electric: '#FFEA70',
@@ -37,15 +38,11 @@ const allGenerations = {
     2: 'offset=151&limit=100',
     3: 'offset=386&limit=108',
     4: 'offset=494&limit=155',
-    5: 'offset=649&limit=160',
+    5: 'offset=649&limit=72',
     6: 'offset=721&limit=88',
     7: 'offset=809&limit=96',
     8: 'offset=905&limit=105',
 };
-
-
-
-
 
 const searchPokemon = event => {
     event.preventDefault();
@@ -81,8 +78,8 @@ const renderPokemonData = data => {
 const setCardColor = types => {
     const colorOne = typeColors[types[0].type.name];
     const colorTwo = types[1] ? typeColors[types[1].type.name] : typeColors.default;
-    pokeImg.style.background = `radial-gradient(${colorTwo} 33%, ${colorOne} 33%)`;
-    pokeImg.style.backgroundSize = ' 5px 5px';
+    pokeImgContainer.style.background = `radial-gradient(${colorTwo} 33%, ${colorOne} 33%)`;
+    pokeImgContainer.style.backgroundSize = ' 5px 5px';
 }
 
 const renderPokemonTypes = types => {
@@ -114,11 +111,11 @@ const renderPokemonMoves = moves => {
     pokeMoves.innerHTML = '';
     moves.forEach(move => {
 
-        // we create elements of the movements
+        //We create elements of the movements
         const moveElementName = document.createElement("h2")
         moveElementName.textContent = move.move.name;
 
-        //we get the types of attacks
+        //We get the types of attacks
         const resp = fetch(move.move.url).then(response => response.json())
         Promise.all([resp]).then(values => {
             values.forEach(types => {
@@ -173,19 +170,24 @@ const DataPokemons = async (data) => {
     for (let i = 0; i < 8; i++) {
         numbG += 1;
         generationsHTML = `
-        <li class="hola">Generation${numbG}</li>
+        <li class="generations">Gene${numbG}</li>
         `
         generationsTable.innerHTML += generationsHTML;
     }
     setTimeout(() => {
-        const selectG = document.querySelectorAll('.hola')
+        const selectG = document.querySelectorAll('.generations')
         selectG.forEach((session, index) => {
             session.addEventListener("click", () => {
                 pokeTable.innerHTML = '';
                 indexNum(index + 1)
             })
         })
+        table.style.height = '60vh'
+        pokeTable.style.display = '';
     }, 3000);
+    pokeTable.style.display = 'none';
+    table.style.height = '0vh';
+
 
     //the pokemon list is rendered and a click event is added to add it to the poke card
     for (let index of data) {
