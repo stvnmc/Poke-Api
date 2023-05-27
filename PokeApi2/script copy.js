@@ -1,3 +1,139 @@
+
+
+
+
+
+
+// const searchPokemon = event => {
+//     event.preventDefault();
+//     const { value } = event.target.pokemon;
+//     searchPokemonData(value)
+// }
+
+// const searchPokemonData = value => {
+//     fetch(`https://pokeapi.co/api/v2/pokemon/${value.toLowerCase()}`)
+//         .then(data => data.json())
+//         .then(response => renderPokemonData(response))
+//         .catch(err => renderNotFound())
+// }
+
+// const renderPokemonData = data => {
+//     const sprite = data.sprites.front_default;
+//     const { stats, types, moves } = data;
+
+// }
+
+// const setCardColor = types => {
+//     const colorOne = typeColors[types[0].type.name];
+//     const colorTwo = types[1] ? typeColors[types[1].type.name] : typeColors.default;
+//     pokeImgContainer.style.background = `radial-gradient(${colorTwo} 33%, ${colorOne} 33%)`;
+//     pokeImgContainer.style.backgroundSize = ' 5px 5px';
+// }
+
+// const renderPokemonTypes = types => {
+//     pokeTypes.innerHTML = '';
+//     types.forEach(type => {
+//         const typeTextElement = document.createElement("div");
+//         typeTextElement.style.color = typeColors[type.type.name];
+//         typeTextElement.textContent = type.type.name;
+//         pokeTypes.appendChild(typeTextElement);
+//     });
+// }
+
+
+
+
+
+
+// const indexNum = (index) => {
+//     const generation = allGenerations[index]
+//     NumGene(generation)
+// }
+
+// const NumGene = (Gene) => {
+//     const urlPokemon = `https://pokeapi.co/api/v2/pokemon?${Gene}`
+//     GetPokemons(urlPokemon)
+// }
+
+// const GetPokemons = async (url) => {
+//     const response = await fetch(url);
+//     const results = await response.json();
+//     DataPokemons(results.results)
+// }
+
+// const DataPokemons = async (data) => {
+//     // With this I create the 8 generations and we add the event to render the different pokemons of the exact season
+
+//     Generations()
+
+//     //the pokemon list is rendered and a click event is added to add it to the poke card
+//     for (let index of data) {
+
+//         const resp = await fetch(index.url);
+//         const resul = await resp.json();
+//         tem2lateHtml = `
+//         <div class="poke" id="${resul.id}"
+//         style="background:radial-gradient(${typeColors[resul.types[0].type.name]} 33%, ${resul.types[1]
+//                 ? typeColors[resul.types[1].type.name] : typeColors.default} 33%) 0% 0% / 5px 5px;">
+//         <h2 style="color:#fff;">${resul.name}</h2>
+//         <h2 style="color:#fff;">${resul.id}</h2>
+//         <img src=${resul.sprites.front_default} />
+//         </div>
+//         `;
+//         pokeTable.innerHTML += tem2lateHtml;
+//     };
+
+//     const poke = document.querySelectorAll('.poke');
+//     poke.forEach(poke => {
+//         poke.addEventListener("click", () => {
+//             getID(poke.id)
+//         })
+//     })
+//     const getID = (e) => {
+//         searchPokemonData(e)
+//     }
+// }
+
+
+// const Generations = () => {
+//     const generationsTable = document.getElementById('poke-generations')
+//     const generation = document.querySelectorAll('.generations')
+//     if (generation.length === 0) {
+//         for (let i = 0; i < 8; i++) {
+
+//             generationsHTML = `
+//             <li class="generations ${i === 0 ? 'activo' : ''}">Gene${i + 1}</li>
+//             `
+//             generationsTable.innerHTML += generationsHTML;
+//         }
+//     }
+
+//     setTimeout(() => {
+//         const selectG = document.querySelectorAll('.generations')
+//         selectG.forEach((session, index) => {
+//             session.addEventListener("click", () => {
+//                 pokeTable.innerHTML = '';
+//                 if (session.classList.contains('activo')) {
+//                     session.classList.remove('activo')
+//                     session.classList.toggle('activo')
+//                 } else {
+//                     session.classList.toggle('activo')
+//                 }
+//                 indexNum(index)
+//             })
+//         })
+//         table.style.height = '60vh'
+//         pokeTable.style.display = '';
+
+//     }, 3000);
+//     pokeTable.style.display = 'none';
+//     table.style.height = '0vh';
+// }
+
+// indexNum(0)
+
+
+
 const pokeCard = document.getElementById('data-poke-card');
 const pokeName = document.getElementById('data-poke-name');
 const pokeImg = document.getElementById('data-poke-img');
@@ -60,7 +196,7 @@ const searchPokemonData = value => {
 const renderPokemonData = data => {
     const sprite = data.sprites.front_default;
     const { stats, types, moves } = data;
-    pokeImg.style.background = ''
+
     pokeName.textContent = data.name;
     pokeCard.style.minWidth = '42vw'
     pokeCard.style.minHeight = '62vh'
@@ -145,11 +281,18 @@ const renderNotFound = () => {
     pokeMoves.textContent = ''
 }
 
-
-const indexNum = async (index) => {
+const indexNum = (index) => {
     const generation = allGenerations[index]
-    const urlPokemon = `https://pokeapi.co/api/v2/pokemon?${generation}`
-    const response = await fetch(urlPokemon);
+    NumGene(generation)
+}
+
+const NumGene = (Gene) => {
+    const urlPokemon = `https://pokeapi.co/api/v2/pokemon?${Gene}`
+    GetPokemons(urlPokemon)
+}
+
+const GetPokemons = async (url) => {
+    const response = await fetch(url);
     const results = await response.json();
     DataPokemons(results.results)
 }
@@ -158,33 +301,26 @@ const DataPokemons = async (data) => {
 
     // With this I create the 8 generations and we add the event to render the different pokemons of the exact season
     const generationsTable = document.getElementById('poke-generations')
-    const generation = document.querySelectorAll('.generations')
-    if (generation.length === 0) {
-        for (let i = 0; i < 8; i++) {
-            generationsHTML = `
-            <li class="generations ${i === 0 ? 'activo' : ''}">Gene${i + 1}</li>
-            `
-            generationsTable.innerHTML += generationsHTML;
-        }
+    generationsTable.innerHTML = '';
+    var numbG = 0;
+    for (let i = 0; i < 8; i++) {
+        numbG += 1;
+        generationsHTML = `
+        <li class="generations">Gene${numbG}</li>
+        `
+        generationsTable.innerHTML += generationsHTML;
     }
-
-    const selectG = document.querySelectorAll('.generations')
-    selectG.forEach((session, index) => {
-        if (session.classList.contains('ge')) {
-        } else {
-            session.classList.add('ge')
+    setTimeout(() => {
+        const selectG = document.querySelectorAll('.generations')
+        selectG.forEach((session, index) => {
             session.addEventListener("click", () => {
                 pokeTable.innerHTML = '';
-                document.querySelector('.session .activo').classList.remove('activo')
-                session.classList.toggle('activo')
                 indexNum(index + 1)
             })
-        }
-    })
-    setTimeout(() => {
+        })
         table.style.height = '60vh'
         pokeTable.style.display = '';
-    }, 2000);
+    }, 3000);
     pokeTable.style.display = 'none';
     table.style.height = '0vh';
 
