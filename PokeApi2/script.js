@@ -1,13 +1,4 @@
 const pokeCard = document.getElementById('data-poke-card');
-const pokeName = document.getElementById('data-poke-name');
-const pokeImg = document.getElementById('data-poke-img');
-const pokeImgContainer = document.getElementById('data-poke-img-container');
-const pokeId = document.getElementById('data-poke-id');
-const pokeHeight = document.getElementById('data-poke-height');
-const pokeWeight = document.getElementById('data-poke-weight');
-const pokeTypes = document.getElementById('data-poke-types');
-const pokeStats = document.getElementById('data-poke-stats');
-const pokeMoves = document.getElementById('data-poke-moves');
 const pokeTable = document.getElementById('table-poke');
 const table = document.getElementById('table');
 
@@ -54,47 +45,58 @@ const searchPokemonData = value => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${value.toLowerCase()}`)
         .then(data => data.json())
         .then(response => renderPokemonData(response))
-        .catch(err => renderNotFound())
+        .catch(err => coverAndNotFound())
 }
+
+const coverAndNotFound = () => {
+    pokeCard.innerHTML = '';
+    pokeCard.style.minWidth = '25vw'
+    pokeCard.style.minHeight = '10vh'
+    const cardImg = document.createElement("img")
+    cardImg.setAttribute('src', './img/poke-shadow.png');
+    cardImg.style.width = '25vw'
+    pokeCard.appendChild(cardImg)
+}
+
+coverAndNotFound()
 
 const renderPokemonData = data => {
-    const sprite = data.sprites.front_default;
-    const { stats, types, moves } = data;
-    pokeImg.style.background = ''
-    pokeName.textContent = data.name;
-    pokeCard.style.minWidth = '42vw'
+
+    pokeCard.style.minWidth = '80%'
     pokeCard.style.minHeight = '62vh'
     pokeCard.style.display = 'grid'
-    pokeImg.setAttribute('src', sprite);
-    pokeId.textContent = `Nº ${data.id}`;
-    pokeHeight.textContent = `H ${data.height / 10}m`;
-    pokeWeight.textContent = `W ${data.weight / 10}kg`;
-    setCardColor(types);
-    renderPokemonTypes(types)
-    renderPokemonStats(stats)
-    renderPokemonMoves(moves)
-}
 
-const setCardColor = types => {
-    const colorOne = typeColors[types[0].type.name];
-    const colorTwo = types[1] ? typeColors[types[1].type.name] : typeColors.default;
-    pokeImgContainer.style.background = `radial-gradient(${colorTwo} 33%, ${colorOne} 33%)`;
-    pokeImgContainer.style.backgroundSize = ' 5px 5px';
-}
+    const colorOne = typeColors[data.types[0].type.name];
+    const colorTwo = data.types[1] ? typeColors[data.types[1].type.name] : typeColors.default;
 
-const renderPokemonTypes = types => {
-    pokeTypes.innerHTML = '';
-    types.forEach(type => {
-        const typeTextElement = document.createElement("div");
-        typeTextElement.style.color = typeColors[type.type.name];
-        typeTextElement.textContent = type.type.name;
-        pokeTypes.appendChild(typeTextElement);
-    });
-}
+    pokeCard.innerHTML = '';
+    pokeCardHtml = `
+    <h2 id="data-poke-name" class="name">${data.name ? data.name : 'Pokedex'}</h2>
+    <div id="data-poke-img-container" class="img-container" style="background:radial-gradient(${colorOne} 33%, ${colorTwo
+            ? colorTwo : typeColors.default} 33%) 0% 0% / 5px 5px;">
+        <img id="data-poke-img" class="poke-img" src=" ${data.sprites.front_default ? data.sprites.front_default : './img/poke-shadow.png'} " />
+    </div>
+    <div id="data-poke-stats" class="poke-stats"></div >
+    <div class="poke-data-basic">
+        <div id="data-poke-id">Nº ${data.id}</div>
+        <div id="data-poke-height">H ${data.height / 10}m</div>
+        <div id="data-poke-weight">W ${data.weight / 10}kg</div>
+    </div>
+    <div id="data-poke-types" class="poke-types">
+            ${data.types.length === 2 ?
+            `
+            <div style="color:${colorOne}">${data.types[0].type.name}</div>
+            <div style="color:${colorTwo}">${data.types[1].type.name}</div>`
+            :
+            `<div style="color:${colorOne}">${data.types[0].type.name} </div>
+            `}
+    </div>
+    <div id="data-poke-moves" class="poke-moves"></div>
+    `
+    pokeCard.innerHTML += pokeCardHtml;
 
-const renderPokemonStats = stats => {
-    pokeStats.innerHTML = '';
-    stats.forEach(stat => {
+    const pokeStats = document.getElementById('data-poke-stats');
+    data.stats.forEach(stat => {
         const statElement = document.createElement("div");
         const statElementName = document.createElement("h3");
         const statElementAmount = document.createElement("h3");
@@ -104,47 +106,27 @@ const renderPokemonStats = stats => {
         statElement.appendChild(statElementAmount);
         pokeStats.appendChild(statElement);
     });
-}
 
-const renderPokemonMoves = moves => {
-    moves.length = 4
-    pokeMoves.innerHTML = '';
-    moves.forEach(move => {
+    data.moves.length = 4
+    const pokeMoves = document.getElementById('data-poke-moves');
+    data.moves.forEach(move => {
 
         //We create elements of the movements
         const moveElementName = document.createElement("h2")
+        moveElementName.textContent = move.move.name;
         moveElementName.textContent = move.move.name;
 
         //We get the types of attacks
         const resp = fetch(move.move.url).then(response => response.json())
         Promise.all([resp]).then(values => {
-            values.forEach(types => {
-                const colorOne = typeColors[types.type.name];
-                const colorTwo = typeColors.default;
-                moveElementName.style.background = `radial-gradient(${colorTwo} 33%, ${colorOne} 33%)`;
+            values.forEach((e) => {
+                moveElementName.style.background = `${typeColors[e.type.name]} `;
                 moveElementName.style.backgroundSize = ' 5px 5px';
             })
         });
         pokeMoves.appendChild(moveElementName);
     })
-
 }
-
-const renderNotFound = () => {
-    pokeName.textContent = 'No encontrado'
-    pokeImg.setAttribute('src', 'img/poke-shadow.png')
-    pokeImg.style.background = '#fff'
-    pokeCard.style.minWidth = '25vh'
-    pokeCard.style.minHeight = '20vh'
-    pokeCard.style.display = 'block'
-    pokeTypes.innerHTML = ''
-    pokeStats.innerHTML = ''
-    pokeId.textContent = ''
-    pokeHeight.textContent = ''
-    pokeWeight.textContent = ''
-    pokeMoves.textContent = ''
-}
-
 
 const indexNum = async (index) => {
     const generation = allGenerations[index]
@@ -152,7 +134,7 @@ const indexNum = async (index) => {
     const response = await fetch(urlPokemon);
     const results = await response.json();
     DataPokemons(results.results)
-}
+};
 
 const DataPokemons = async (data) => {
 
@@ -166,7 +148,7 @@ const DataPokemons = async (data) => {
             `
             generationsTable.innerHTML += generationsHTML;
         }
-    }
+    };
 
     const selectG = document.querySelectorAll('.generations')
     selectG.forEach((session, index) => {
@@ -180,14 +162,13 @@ const DataPokemons = async (data) => {
                 indexNum(index + 1)
             })
         }
-    })
+    });
     setTimeout(() => {
         table.style.height = '60vh'
         pokeTable.style.display = '';
-    }, 2000);
+    }, 1500);
     pokeTable.style.display = 'none';
     table.style.height = '0vh';
-
 
     //the pokemon list is rendered and a click event is added to add it to the poke card
     for (let index of data) {
@@ -208,14 +189,9 @@ const DataPokemons = async (data) => {
     const poke = document.querySelectorAll('.poke');
     poke.forEach(poke => {
         poke.addEventListener("click", () => {
-            getID(poke.id)
+            searchPokemonData(poke.id)
         })
-    })
-    const getID = (e) => {
-        searchPokemonData(e)
-    }
-}
+    });
+};
 
 indexNum(1)
-
-
