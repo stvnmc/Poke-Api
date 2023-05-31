@@ -95,6 +95,8 @@ const renderPokemonData = data => {
     `
     pokeCard.innerHTML += pokeCardHtml;
 
+    
+
     const pokeStats = document.getElementById('data-poke-stats');
     data.stats.forEach(stat => {
         const statElement = document.createElement("div");
@@ -166,7 +168,7 @@ const DataPokemons = async (data) => {
     setTimeout(() => {
         table.style.height = '60vh'
         pokeTable.style.display = '';
-    }, 1500);
+    }, 2000);
     pokeTable.style.display = 'none';
     table.style.height = '0vh';
 
