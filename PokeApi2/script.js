@@ -1,6 +1,6 @@
 const pokeCard = document.getElementById('data-poke-card');
 const pokeTable = document.getElementById('table-poke');
-const table = document.getElementById('table');
+
 
 const typeColors = {
     electric: '#FFEA70',
@@ -35,6 +35,8 @@ const allGenerations = {
     8: 'offset=905&limit=105',
 };
 
+// Function received from the DOM with a form action either a number or a name is separated so as not to have errors with DataPokemons()
+
 const searchPokemon = event => {
     event.preventDefault();
     const { value } = event.target.pokemon;
@@ -57,8 +59,9 @@ const coverAndNotFound = () => {
     cardImg.style.width = '25vw'
     pokeCard.appendChild(cardImg)
 }
-
 coverAndNotFound()
+
+// Function that creates the pokemon card with the information passed by searchPokemonData
 
 const renderPokemonData = data => {
 
@@ -95,7 +98,8 @@ const renderPokemonData = data => {
     `
     pokeCard.innerHTML += pokeCardHtml;
 
-    
+
+    // Statistics are added
 
     const pokeStats = document.getElementById('data-poke-stats');
     data.stats.forEach(stat => {
@@ -109,16 +113,17 @@ const renderPokemonData = data => {
         pokeStats.appendChild(statElement);
     });
 
+    // 4 skills of the many that exist are added
+
     data.moves.length = 4
     const pokeMoves = document.getElementById('data-poke-moves');
     data.moves.forEach(move => {
-
-        //We create elements of the movements
         const moveElementName = document.createElement("h2")
         moveElementName.textContent = move.move.name;
         moveElementName.textContent = move.move.name;
 
-        //We get the types of attacks
+        // Skill type color is added
+
         const resp = fetch(move.move.url).then(response => response.json())
         Promise.all([resp]).then(values => {
             values.forEach((e) => {
@@ -130,7 +135,9 @@ const renderPokemonData = data => {
     })
 }
 
-const indexNum = async (index) => {
+// Function that will render the generations of pokemons
+
+const indexNum = async index => {
     const generation = allGenerations[index]
     const urlPokemon = `https://pokeapi.co/api/v2/pokemon?${generation}`
     const response = await fetch(urlPokemon);
@@ -138,9 +145,12 @@ const indexNum = async (index) => {
     DataPokemons(results.results)
 };
 
+
+
 const DataPokemons = async (data) => {
 
-    // With this I create the 8 generations and we add the event to render the different pokemons of the exact season
+    // A list with the different generations
+
     const generationsTable = document.getElementById('poke-generations')
     const generation = document.querySelectorAll('.generations')
     if (generation.length === 0) {
@@ -152,11 +162,13 @@ const DataPokemons = async (data) => {
         }
     };
 
+    // Added to the entire list of generations an addEventListener() with the indexNum event that receives the generation number
+
     const selectG = document.querySelectorAll('.generations')
     selectG.forEach((session, index) => {
-        if (session.classList.contains('ge')) {
+        if (session.classList.contains('created')) {
         } else {
-            session.classList.add('ge')
+            session.classList.add('created')
             session.addEventListener("click", () => {
                 pokeTable.innerHTML = '';
                 document.querySelector('.session .activo').classList.remove('activo')
@@ -165,6 +177,9 @@ const DataPokemons = async (data) => {
             })
         }
     });
+
+    // The table with all the pokemons is opened and closed
+
     setTimeout(() => {
         table.style.height = '60vh'
         pokeTable.style.display = '';
@@ -172,7 +187,8 @@ const DataPokemons = async (data) => {
     pokeTable.style.display = 'none';
     table.style.height = '0vh';
 
-    //the pokemon list is rendered and a click event is added to add it to the poke card
+    // All the pokemons of their respective generation are rendered
+
     for (let index of data) {
         const resp = await fetch(index.url);
         const resul = await resp.json();
@@ -180,13 +196,15 @@ const DataPokemons = async (data) => {
         <div class="poke" id="${resul.id}"
         style="background:radial-gradient(${typeColors[resul.types[0].type.name]} 33%, ${resul.types[1]
                 ? typeColors[resul.types[1].type.name] : typeColors.default} 33%) 0% 0% / 5px 5px;">
-        <h2 style="color:#fff;">${resul.name}</h2>
+        <h2 style="color:#fff; text-decoration: underline;margin-left: 1rem;">${resul.name}</h2>
         <h2 style="color:#fff;">${resul.id}</h2>
         <img src=${resul.sprites.front_default} />
         </div>
         `;
         pokeTable.innerHTML += tem2lateHtml;
     };
+
+    // An addEventListener() is added to all the pokemons and the searchPokemonData function is called
 
     const poke = document.querySelectorAll('.poke');
     poke.forEach(poke => {
